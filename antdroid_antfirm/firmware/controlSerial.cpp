@@ -57,8 +57,8 @@ void Control::Start(void)
 {
     level_log = 3;
 
-    Serial.begin(115200);
-    log("Serial.begin = 115200", Info);
+    Serial.begin(57600);
+    log("Serial.begin = 57600", Info);
 }
 
 void Control::ReadInput(void)

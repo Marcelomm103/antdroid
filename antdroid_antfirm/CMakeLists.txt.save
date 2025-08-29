@@ -1,0 +1,42 @@
+#set(CMAKE_CXX_STANDARD 11)
+#set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+cmake_minimum_required(VERSION 3.16.3)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_compile_options(-std=c++11)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+project(antdroid_antfirm)
+
+find_package(catkin REQUIRED COMPONENTS
+    rosserial_arduino
+    rosserial_client
+    antdroid_msgs
+    std_msgs
+)
+
+catkin_package()
+
+include_dirs(
+  ${catkin_INCLUDE_DIRS}
+  ${arduino_LIBRARIES}
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib
+  ${CMAKE_CURRENT_BINARY_DIR}/ros_lib
+  /home/marcelo/antdroid_ws/devel/include
+)
+
+rosserial_generate_ros_lib(
+    PACKAGE rosserial_arduino
+    SCRIPT make_libraries.py
+    )
+
+rosserial_configure_client(
+    DIRECTORY firmware
+    TOOLCHAIN_FILE ${ROSSERIAL_ARDUINO_TOOLCHAIN}
+    )
+
+rosserial_add_client_target(firmware ALL)
+rosserial_add_client_target(firmware upload)
