@@ -1,0 +1,12 @@
+<launch> 
+<!-- Base link to camera_link --> 
+<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_camera_link" args="0 0 0 0 0 0 base_link camera_link" /> 
+<!-- camera_link to camera_depth_frame --> 
+<node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_to_depth" args="0 0 0 0 0 0 camera_link camera_depth_frame" /> 
+<!-- camera_depth_frame to camera_depth_optical_frame --> 
+<node pkg="tf2_ros" type="static_transform_publisher" name="depth_to_depth_optical" args="0 0 0 -1.5708 0 -1.5708 camera_depth_frame camera_depth_optical_frame" /> 
+<!-- camera_link to camera_rgb_frame --> 
+<node pkg="tf2_ros" type="static_transform_publisher" name="camera_link_to_rgb" args="0 0 0 0 0 0 camera_link camera_rgb_frame" /> 
+<!-- camera_rgb_frame to camera_rgb_optical_frame --> 
+<node pkg="tf2_ros" type="static_transform_publisher" name="rgb_to_rgb_optical" args="0 0 0 -1.5708 0 -1.5708 camera_rgb_frame camera_rgb_optical_frame" /> 
+</launch>
