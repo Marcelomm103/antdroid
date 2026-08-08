@@ -1,0 +1,21 @@
+{
+  "name": "Raspberry Pi 5 Edge (Ubuntu 24.04 ROS 2 Jazzy)",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    "--net=host",
+    "--ipc=host",
+    "--privileged"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-iot.vscode-ros",
+        "ms-python.python",
+        "ms-vscode.cpptools"
+      ]
+    }
+  },
+  "remoteUser": "root"
+}
