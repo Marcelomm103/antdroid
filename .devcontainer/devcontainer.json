@@ -1,19 +1,33 @@
 {
-  "name": "Raspberry Pi 5 Edge (Ubuntu 24.04 ROS 2 Jazzy)",
+  "name": "Raspberry Pi 5 Edge — ROS 2 Humble container (Ubuntu 24.04 host)",
   "build": {
     "dockerfile": "Dockerfile"
   },
+  // --privileged é conveniência de DEV (expõe I2C/serial/GPIO do host).
+  // Em produção, trocar por acesso dirigido:
+  //   "--device=/dev/ttyACM0" (bridge Mega), "--device=/dev/i2c-1" (IMU)
+  // SYS_NICE + rtprio/memlock: threads SCHED_FIFO do loop reflexo (roadmap E5);
+  // redundantes sob --privileged, mas documentam o caminho de produção.
   "runArgs": [
     "--net=host",
     "--ipc=host",
-    "--privileged"
+    "--privileged",
+    "--cap-add=SYS_NICE",
+    "--ulimit", "rtprio=98",
+    "--ulimit", "memlock=-1"
   ],
+  "containerEnv": {
+    // Devem casar com o container do PC cognitivo (que usa os defaults do Humble)
+    "ROS_DOMAIN_ID": "0",
+    "RMW_IMPLEMENTATION": "rmw_fastrtps_cpp"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-iot.vscode-ros",
         "ms-python.python",
-        "ms-vscode.cpptools"
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools"
       ]
     }
   },
