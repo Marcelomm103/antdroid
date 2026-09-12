@@ -38,26 +38,16 @@ RUN apt-get update && apt-get install -y \
     python3-pytest \
     && rm -rf /var/lib/apt/lists/*
 
-# Acesso a hardware: I2C (IMU MPU6050/ICM-20948) e serial USB (bridge Arduino Mega)
+# Acesso a hardware: I2C — 2× PCA9685 (servos, i2c-1) + MPU6050/INA226 (2º controlador)
 RUN apt-get update && apt-get install -y \
     i2c-tools \
     libi2c-dev \
     udev \
     && rm -rf /var/lib/apt/lists/*
 
-# Python p/ drivers e ferramentas de bancada: IMU (smbus2), protocolo serial do
-# bridge (pyserial + COBS) — ver roadmap E3/E4
+# Python p/ drivers e bancada: smbus2 fala com PCA9685, MPU6050 e INA226 (roadmap E3/E4)
 RUN pip3 install --no-cache-dir \
-    smbus2 \
-    pyserial \
-    cobs
-
-# arduino-cli + core AVR: compila o firmware antfirm_bridge do Mega 2560 (E3)
-# de dentro deste mesmo container
-RUN curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh \
-    | BINDIR=/usr/local/bin sh \
-    && arduino-cli core update-index \
-    && arduino-cli core install arduino:avr
+    smbus2
 
 # Configura o ambiente ROS 2 automaticamente no bash
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc

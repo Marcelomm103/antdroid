@@ -3,9 +3,10 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  // --privileged é conveniência de DEV (expõe I2C/serial/GPIO do host).
+  // --privileged é conveniência de DEV (expõe I2C/GPIO/input do host).
   // Em produção, trocar por acesso dirigido:
-  //   "--device=/dev/ttyACM0" (bridge Mega), "--device=/dev/i2c-1" (IMU)
+  //   "--device=/dev/i2c-1" (2× PCA9685), "--device=/dev/i2c-3" (MPU6050 + INA226),
+  //   regra p/ /dev/input/* (DS4 via Bluetooth do host)
   // SYS_NICE + rtprio/memlock: threads SCHED_FIFO do loop reflexo (roadmap E5);
   // redundantes sob --privileged, mas documentam o caminho de produção.
   "runArgs": [
